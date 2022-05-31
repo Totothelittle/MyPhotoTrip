@@ -20,20 +20,31 @@
                     </q-item-section>
                 </q-item>
             </q-list>
-        </div>
+        </div>   
 
         <div class="column items-center q-pa-md">
-            <q-btn round color="primary" icon="add" dense/>
-                <q-menu>
-                    <p>Hello!</p>
-                </q-menu>
+          <q-btn round color="primary" icon="add" dense @click="newAlbum"/>
         </div>
-
+        
     </div>
 </template>
 
 <script>
+import { useQuasar } from 'quasar'
+import AlbumCreation from 'components/AlbumCreation.vue'
+
 export default ({
+
+  components: {
+    
+  },
+
+  setup() {
+    const $q = useQuasar()
+
+    return { }
+  },
+
   data()
   {
     return {
@@ -47,14 +58,29 @@ export default ({
           name: 'Laponie',
           decription: 'La visite du village du père Noël',
           logo: 'Image'
-        },
-        {
-          name: 'Minorque',
-          decription: 'La chaleur des îles',
-          logo: 'Image'
         }
       ]
     }
-  }
+  },
+
+  methods: {
+    newAlbum () {
+      this.$q.dialog({
+        component: AlbumCreation,
+
+        componentProps: {
+
+        }
+      }).onOk(data => {
+        console.log(data)
+        this.albums.push(data)
+      }).onCancel(() => {
+        console.log('>>>> Cancel')
+      }).onDismiss(() => {
+        console.log('I am triggered on both OK and Cancel')
+      })
+    }
+  },
+
 })
 </script>

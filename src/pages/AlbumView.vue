@@ -4,7 +4,7 @@
             <q-list separator>
                 <q-item
                     v-for="album in albums"
-                    :key= "album.name"
+                    :key= "album.title"
                     class="q-pa-md" 
                     clickable
                     v-ripple
@@ -15,8 +15,8 @@
                         </q-avatar>
                     </q-item-section>
                     <q-item-section>
-                        <q-item-label>{{ album.name }}</q-item-label>
-                        <q-item-label caption lines="1">{{ album.decription }}</q-item-label>
+                        <q-item-label>{{ album.title }}</q-item-label>
+                        <q-item-label caption lines="1">{{ album.description }}</q-item-label>
                     </q-item-section>
                 </q-item>
             </q-list>
@@ -50,13 +50,13 @@ export default ({
     return {
       albums: [
         {
-          name: 'Islande',
-          decription: 'L\'album de notre lune de miel !',
+          title: 'Islande',
+          description: 'L\'album de notre lune de miel !',
           logo: 'Image'
         },
         {
-          name: 'Laponie',
-          decription: 'La visite du village du père Noël',
+          title: 'Laponie',
+          description: 'La visite du village du père Noël',
           logo: 'Image'
         }
       ]
@@ -72,8 +72,7 @@ export default ({
 
         }
       }).onOk(data => {
-        console.log(data)
-        this.albums.push(data)
+        this.albums.push(data.album)
       }).onCancel(() => {
         console.log('>>>> Cancel')
       }).onDismiss(() => {

@@ -7,7 +7,7 @@
 
         <q-card-section class="q-pt-none">
             <p>Name</p>
-            <q-input dense v-model.string="albumName" autofocus @keyup.enter="newAlbum = false" />
+            <q-input dense v-model.string="title" autofocus @keyup.enter="newAlbum = false" />
         </q-card-section>
 
         <q-card-section class="q-pt-none">
@@ -17,7 +17,7 @@
 
         <q-card-actions align="right" class="text-primary">
           <q-btn flat label="Cancel" @click="onCancelClick" />
-          <q-btn flat label="OK" @click="onOKClick(albumName, description, logo)" />
+          <q-btn flat label="OK" @click="onOKClick(title, description, logo)" />
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -32,7 +32,7 @@ export default {
 
   data() {
 	return {
-		albumName: '',
+		title: '',
 		description: '',
         logo: ''
 	}
@@ -62,11 +62,11 @@ export default {
       this.$emit('hide')
     },
 
-    onOKClick (albumName, description, logo) {
+    onOKClick (title, description, logo) {
       // on OK, it is REQUIRED to
       // emit "ok" event (with optional payload)
       // before hiding the QDialog
-      this.$emit('ok', {album : {albumName, description, logo}})
+      this.$emit('ok', {album : {title, description, logo}})
       // or with payload: this.$emit('ok', { ... })
 
       // then hiding dialog

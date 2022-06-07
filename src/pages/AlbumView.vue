@@ -2,23 +2,14 @@
     <div class="q-pa-md" style="max-width: 350px">
         <div class="row">
             <q-list separator>
-                <q-item
+                <AlbumItem
                     v-for="album in albums"
                     :key= "album.title"
-                    class="q-pa-md" 
-                    clickable
-                    v-ripple
-                >
-                    <q-item-section avatar>
-                        <q-avatar>
-                            <img src="../assets/LogoDefault.png">
-                        </q-avatar>
-                    </q-item-section>
-                    <q-item-section>
-                        <q-item-label>{{ album.title }}</q-item-label>
-                        <q-item-label caption lines="1">{{ album.description }}</q-item-label>
-                    </q-item-section>
-                </q-item>
+                    :title="album.title"
+                    :description="album.description"
+                    :logo="album.logo"
+                    @delete-album="deleteAlbum"
+                />
             </q-list>
         </div>   
 
@@ -32,17 +23,18 @@
 <script>
 import { useQuasar } from 'quasar'
 import AlbumCreation from 'components/AlbumCreation.vue'
+import AlbumItem from 'components/AlbumItem.vue'
 
 export default ({
 
   components: {
-    
+    AlbumItem
   },
 
   setup() {
     const $q = useQuasar()
 
-    return { }
+    return {    }
   },
 
   data()
@@ -78,8 +70,10 @@ export default ({
       }).onDismiss(() => {
         console.log('I am triggered on both OK and Cancel')
       })
+    },
+    deleteAlbum (payload) {
+      this.albums.splice(this.albums.indexOf(payload.albumToDelete), 1);
     }
   },
-
 })
 </script>

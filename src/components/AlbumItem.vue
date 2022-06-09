@@ -11,11 +11,11 @@
                 </q-item-section>
                 <q-item-section>
                     <q-item-label>{{ title }}</q-item-label>
-                    <q-item-label caption lines="1">{{ description }}</q-item-label>
+                    <q-item-label caption lines="2">{{ description }}</q-item-label>
                 </q-item-section>
 
                 <q-menu touch-position context-menu>
-                    <q-list style="min-width: 100px">
+                    <q-list style="min-width: 120px">
                         <q-item clickable v-close-popup>
                              <q-item-section>Album settings</q-item-section>
                             <q-item-section avatar>

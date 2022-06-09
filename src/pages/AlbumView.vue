@@ -60,20 +60,32 @@ export default ({
       this.$q.dialog({
         component: AlbumCreation,
 
-        componentProps: {
-
-        }
       }).onOk(data => {
-        this.albums.push(data.album)
-      }).onCancel(() => {
-        console.log('>>>> Cancel')
-      }).onDismiss(() => {
-        console.log('I am triggered on both OK and Cancel')
-      })
+          let iAlbum = this.albums.map(object => object.title).indexOf(data.album.title)
+          console.log(iAlbum)
+          if(iAlbum != -1)
+          {
+            this.$q.notify(this.albums[iAlbum].title + ' already exists.')
+          }
+          else
+          {
+            this.albums.push(data.album)
+          }
+        }
+      )
     },
     deleteAlbum (payload) {
-      this.albums.splice(this.albums.indexOf(payload.albumToDelete), 1);
+      this.$q.dialog({
+        title: 'Warning',
+        message: 'Delete album \" ' + payload.albumToDelete + ' \" ?',
+        cancel: true,
+        persistent: true
+      }).onOk(() => {
+        console.log(this.albums.map(object => object.title).indexOf(payload.albumToDelete));
+        this.albums.splice(this.albums.indexOf(payload.albumToDelete));
+        this.$q.notify(payload.albumToDelete + ' deleted.')
+      })
     }
-  },
+  }
 })
 </script>

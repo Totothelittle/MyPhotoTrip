@@ -1,18 +1,26 @@
 <template>
     <q-dialog ref="dialog" @hide="onDialogHide" persistent>
-      <q-card class="q-dialog-plugin" style="min-width: 200px">
+      <q-card class="q-dialog-plugin" style="min-width: 200px" flat>
         <q-card-section>
           <div class="text-h6">New album</div>
         </q-card-section>
 
         <q-card-section class="q-pt-none">
-            <p>Name</p>
-            <q-input dense v-model.string="title" autofocus @keyup.enter="newAlbum = false" />
+            <q-input
+              dense 
+              v-model.string="title"
+              label=Name
+              :rules="[ val => val && val.length > 0 || 'Please type something']" 
+              autofocus 
+              @keyup.enter="newAlbum = false"
+            />
         </q-card-section>
 
         <q-card-section class="q-pt-none">
-            <p>Description</p>
-          <q-input dense v-model.string="description"/>
+          <q-input dense 
+            v-model.string="description"
+            label=Description
+          />
         </q-card-section>
 
         <q-card-actions align="right" class="text-primary">
@@ -66,11 +74,18 @@ export default {
       // on OK, it is REQUIRED to
       // emit "ok" event (with optional payload)
       // before hiding the QDialog
-      this.$emit('ok', {album : {title, description, logo}})
-      // or with payload: this.$emit('ok', { ... })
+      if( title === "")
+      {
+        this.$q.notify('Album name can not be empty.')
+      }
+      else
+      {
+        this.$emit('ok', {album : {title, description, logo}})
+        // or with payload: this.$emit('ok', { ... })
 
-      // then hiding dialog
-      this.hide()
+        // then hiding dialog
+        this.hide()
+      }
     },
 
     onCancelClick () {

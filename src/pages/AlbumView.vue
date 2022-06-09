@@ -1,6 +1,6 @@
 <template>
     <div class="q-pa-md" style="max-width: 350px">
-        <div class="row">
+        <div>
             <q-list separator>
                 <AlbumItem
                     v-for="album in albums"
@@ -10,6 +10,7 @@
                     :description="album.description"
                     :logo="album.logo"
                     @delete-album="deleteAlbum"
+                    @edit-album="editAlbum"
                 />
             </q-list>
         </div>
@@ -24,6 +25,7 @@
 <script>
 import { useQuasar } from 'quasar'
 import AlbumCreation from 'components/AlbumCreation.vue'
+import AlbumSettings from 'components/AlbumSettings.vue'
 import AlbumItem from 'components/AlbumItem.vue'
 
 export default ({
@@ -65,7 +67,6 @@ export default ({
 
       }).onOk(data => {
           let iAlbum = this.albums.map(object => object.title).indexOf(data.album.title)
-          console.log(iAlbum)
           if(iAlbum != -1)
           {
             this.$q.notify(this.albums[iAlbum].title + ' already exists.')
@@ -84,11 +85,27 @@ export default ({
         cancel: true,
         persistent: true
       }).onOk(() => {
-        console.log(this.albums.map(object => object.title).indexOf(payload.albumToDelete));
-        this.albums.splice(this.albums.indexOf(payload.albumToDelete));
+        this.albums.splice(this.albums.map(object => object.title).indexOf(payload.albumToDelete), 1);
         this.$q.notify(payload.albumToDelete + ' deleted.')
       })
-    }
+    },
+    editAlbum (payload) {
+      let iAlbum = this.albums.map(object => object.title).indexOf(payload.albumToEdit)
+
+      this.$q.dialog({
+        component: AlbumSettings,
+        componentProps: {
+          title: this.albums[iAlbum].title,
+          description: this.albums[iAlbum].description,
+          logo: this.albums[iAlbum].logo
+        }
+      }).onOk(data => {
+          this.albums[iAlbum].title = data.album.title
+          this.albums[iAlbum].description = data.album.description
+          this.albums[iAlbum].logo = data.album.logo
+        }
+      )
+    },
   }
 })
 </script>

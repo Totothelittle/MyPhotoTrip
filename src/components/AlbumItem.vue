@@ -1,5 +1,5 @@
 <template>
-        <div class="row">
+        <div>
             <q-item
                 class="q-pa-md"
                 clickable
@@ -17,14 +17,14 @@
 
                 <q-menu touch-position context-menu>
                     <q-list style="min-width: 120px">
-                        <q-item clickable v-close-popup>
+                        <q-item clickable @click="emitEditAlbum" v-close-popup>
                              <q-item-section>Album settings</q-item-section>
                             <q-item-section avatar>
                                 <q-icon name="settings" />
                              </q-item-section>
                         </q-item>
                         <q-separator inset />
-                        <q-item clickable @click="emitDeleteAlbum">
+                        <q-item clickable @click="emitDeleteAlbum" v-close-popup>
                             <q-item-section>Delete</q-item-section>
                             <q-item-section avatar>
                                  <q-icon name="delete" />
@@ -66,6 +66,9 @@
         methods: {
             emitDeleteAlbum() {
                 this.$emit('delete-album', { albumToDelete: this.title })
+            },
+            emitEditAlbum() {
+                this.$emit('edit-album', { albumToEdit: this.title })
             }
         }
     }

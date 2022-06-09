@@ -1,8 +1,9 @@
 <template>
         <div class="row">
             <q-item
-                class="q-pa-md" 
+                class="q-pa-md"
                 clickable
+                :to="`/album/${id}`"
             >
                 <q-item-section avatar>
                     <q-avatar>
@@ -33,7 +34,7 @@
                 </q-menu>
 
             </q-item>
-        </div>   
+        </div>
 </template>
 
 <script>
@@ -56,6 +57,10 @@
             {
                 type: String,
                 required: true
+            },
+            id: {
+              type: [String, Number],
+              required: true
             }
         },
         methods: {

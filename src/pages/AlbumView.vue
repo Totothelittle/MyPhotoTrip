@@ -6,17 +6,18 @@
                     v-for="album in albums"
                     :key= "album.title"
                     :title="album.title"
+                    :id="album.id"
                     :description="album.description"
                     :logo="album.logo"
                     @delete-album="deleteAlbum"
                 />
             </q-list>
-        </div>   
+        </div>
 
         <div class="column items-center q-pa-md">
           <q-btn round color="primary" icon="add" dense @click="newAlbum"/>
         </div>
-        
+
     </div>
 </template>
 
@@ -44,12 +45,14 @@ export default ({
         {
           title: 'Islande',
           description: 'L\'album de notre lune de miel !',
-          logo: 'Image'
+          logo: 'Image',
+          id: 1,
         },
         {
           title: 'Laponie',
           description: 'La visite du village du père Noël',
-          logo: 'Image'
+          logo: 'Image',
+          id: 2
         }
       ]
     }

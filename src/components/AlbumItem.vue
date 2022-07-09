@@ -6,8 +6,11 @@
                 :to="`/album/${id}`"
             >
                 <q-item-section avatar>
-                    <q-avatar>
-                        <img src="../assets/LogoDefault.png">
+                    <q-avatar v-if="this.avatar === ''" color="secondary" text-color="white">
+                        {{ title.charAt(0) + title.charAt(1) }}
+                    </q-avatar>
+                    <q-avatar v-else>
+                        <q-img :src="require('../../public/images/'+ this.avatar)" height="40px"/>
                     </q-avatar>
                 </q-item-section>
                 <q-item-section>
@@ -53,7 +56,7 @@
                 type: String,
                 required: true
             },
-            logo:
+            avatar:
             {
                 type: String,
                 required: true

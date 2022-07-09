@@ -8,7 +8,7 @@
                     :title="album.title"
                     :id="album.id"
                     :description="album.description"
-                    :logo="album.logo"
+                    :avatar="album.avatar"
                     @delete-album="deleteAlbum"
                     @edit-album="editAlbum"
                 />
@@ -47,13 +47,13 @@ export default ({
         {
           title: 'Islande',
           description: 'L\'album de notre lune de miel !',
-          logo: 'Image',
+          avatar: 'AvatarDefault.png',
           id: 1,
         },
         {
           title: 'Laponie',
           description: 'La visite du village du père Noël',
-          logo: 'Image',
+          avatar: '',
           id: 2
         }
       ]
@@ -97,12 +97,12 @@ export default ({
         componentProps: {
           title: this.albums[iAlbum].title,
           description: this.albums[iAlbum].description,
-          logo: this.albums[iAlbum].logo
+          avatar: this.albums[iAlbum].avatar
         }
       }).onOk(data => {
           this.albums[iAlbum].title = data.album.title
           this.albums[iAlbum].description = data.album.description
-          this.albums[iAlbum].logo = data.album.logo
+          this.albums[iAlbum].avatar = data.album.avatar
         }
       )
     },

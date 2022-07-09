@@ -25,7 +25,7 @@
 
         <q-card-actions align="right" class="text-primary">
           <q-btn flat label="Cancel" @click="onCancelClick" />
-          <q-btn flat label="OK" @click="onOKClick(title, description, logo)" />
+          <q-btn flat label="OK" @click="onOKClick(title, description, avatar)" />
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -39,11 +39,11 @@ export default {
   },
 
   data() {
-	return {
-		title: '',
-		description: '',
-        logo: ''
-	}
+    return {
+      title: '',
+      description: '',
+      avatar: ''
+    }
   },
 
   emits: [
@@ -70,17 +70,17 @@ export default {
       this.$emit('hide')
     },
 
-    onOKClick (title, description, logo) {
+    onOKClick (title, description, avatar) {
       // on OK, it is REQUIRED to
       // emit "ok" event (with optional payload)
       // before hiding the QDialog
-      if( title === "")
+      if( title === "" )
       {
         this.$q.notify('Album name can not be empty.')
       }
       else
       {
-        this.$emit('ok', {album : {title, description, logo}})
+        this.$emit('ok', {album : {title, description, avatar}})
         // or with payload: this.$emit('ok', { ... })
 
         // then hiding dialog

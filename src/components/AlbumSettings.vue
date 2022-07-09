@@ -2,19 +2,18 @@
     <q-dialog ref="dialog" @hide="onDialogHide" persistent>
 
             <q-card class="q-dialog-plugin" style="min-width: 200px" flat>                    
-                <q-card-section>
+                <q-card-section >
                     <div class="text-h6">Album settings</div>
                 </q-card-section>
-
                     <q-carousel
                         v-model="slide"
-                        swipeable
                         animated
                         arrows
-                        height="200px"
+                        height="170px"
                         control-color="primary"
+                        class="q-pt-none"
                     >
-                        <q-carousel-slide name="title" >
+                        <q-carousel-slide name="title" class="q-pt-none">
                             <q-card-section class="q-pt-none">
                                 <q-input
                                     label="Name"
@@ -24,24 +23,37 @@
                                 />        
                             </q-card-section>
 
-                            <q-card-section class="q-pt-none">
+                            <q-card-section>
                                 <q-input
                                     label="Description"
                                     v-model="editedDesc"
                                 />  
                             </q-card-section>
                         </q-carousel-slide>
-                        <q-carousel-slide name="logo" class="column no-wrap flex-center">
-                            <q-icon name="live_tv" size="56px" />
-                            <div class="q-mt-md text-center">
-                                <p>Il n'y a rien ici pour le moment</p>
+                        <q-carousel-slide name="avatar" class="column no-wrap flex-center">
+                            <div class="q-mt-sm text-center text-subtitle1">
+                                <p>Avatar</p>
+                                <div v-if="editedAvatar !== ''">
+                                  <q-img 
+                                    :src="require('../../public/images/' + editedAvatar)"
+                                    spinner-color="white"
+                                    style="height: 100px; width: 100px"
+                                    class="rounded-borders"
+                                    @click="updateAvatar"
+                                  />
+                                </div>
+                                <div v-else>
+                                  <q-avatar size="100px" rounded color="secondary" text-color="white" @click="updateAvatar">
+                                    {{ editedTitle.charAt(0) + editedTitle.charAt(1) }}
+                                  </q-avatar>
+                                </div>
                             </div>
                         </q-carousel-slide>
                     </q-carousel>
 
                 <q-card-actions align="right" class="text-primary">
                     <q-btn flat label="Cancel" @click="onCancelClick" />
-                    <q-btn flat label="OK" @click="onOKClick(editedTitle, editedDesc, logo)" />
+                    <q-btn flat label="OK" @click="onOKClick(editedTitle, editedDesc, editedAvatar)" />
                 </q-card-actions>
             </q-card>
     </q-dialog>
@@ -61,7 +73,7 @@ export default {
             type: String,
             required: true
         },
-        logo:
+        avatar:
         {
             type: String,
             required: true
@@ -73,7 +85,7 @@ export default {
     return {
         editedTitle:this.title,
         editedDesc:this.description,
-        editedLogo:this.logo,
+        editedAvatar:this.avatar,
         slide:'title'
     }
   },
@@ -102,7 +114,7 @@ export default {
       this.$emit('hide')
     },
 
-    onOKClick (title, description, logo) {
+    onOKClick (title, description, avatar) {
       // on OK, it is REQUIRED to
       // emit "ok" event (with optional payload)
       // before hiding the QDialog
@@ -112,7 +124,7 @@ export default {
       }
       else
       {
-        this.$emit('ok', {album : {title, description, logo}})
+        this.$emit('ok', {album : {title, description, avatar}})
         // or with payload: this.$emit('ok', { ... })
 
         // then hiding dialog
@@ -123,7 +135,12 @@ export default {
     onCancelClick () {
       // we just need to hide the dialog
       this.hide()
+    },
+
+    updateAvatar () {
+      console.log("I should update avatar, but still do not have any backend")
     }
+
   }
 }
 </script>

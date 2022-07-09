@@ -24,6 +24,8 @@
 
 <script>
 import { useQuasar } from 'quasar'
+import { useAlbumStore } from '../stores/albums'
+
 import AlbumCreation from 'components/AlbumCreation.vue'
 import AlbumSettings from 'components/AlbumSettings.vue'
 import AlbumItem from 'components/AlbumItem.vue'
@@ -36,76 +38,60 @@ export default ({
 
   setup() {
     const $q = useQuasar()
+    const albumStore = useAlbumStore()
 
-    return {    }
-  },
-
-  data()
-  {
-    return {
-      albums: [
-        {
-          title: 'Islande',
-          description: 'L\'album de notre lune de miel !',
-          avatar: 'AvatarDefault.png',
-          id: 1,
-        },
-        {
-          title: 'Laponie',
-          description: 'La visite du village du père Noël',
-          avatar: '',
-          id: 2
-        }
-      ]
-    }
-  },
-
-  methods: {
-    newAlbum () {
-      this.$q.dialog({
+    const newAlbum = () => {
+      $q.dialog({
         component: AlbumCreation,
 
       }).onOk(data => {
-          let iAlbum = this.albums.map(object => object.title).indexOf(data.album.title)
+          let iAlbum = albumStore.getIndexFromTitle(data.album.title)
           if(iAlbum != -1)
           {
-            this.$q.notify(this.albums[iAlbum].title + ' already exists.')
+            $q.notify(albumStore.albums[iAlbum].title + ' already exists.')
           }
           else
           {
-            this.albums.push(data.album)
+            albumStore.addAlbum(data.album)
           }
         }
       )
-    },
-    deleteAlbum (payload) {
-      this.$q.dialog({
+    }
+
+    const deleteAlbum = (payload) => {
+      $q.dialog({
         title: 'Warning',
         message: 'Delete album \" ' + payload.albumToDelete + ' \" ?',
         cancel: true,
         persistent: true
       }).onOk(() => {
-        this.albums.splice(this.albums.map(object => object.title).indexOf(payload.albumToDelete), 1);
-        this.$q.notify(payload.albumToDelete + ' deleted.')
+        albumStore.deleteAlbum(payload.albumToDelete)
+        $q.notify(payload.albumToDelete + ' deleted.')
       })
-    },
-    editAlbum (payload) {
-      let iAlbum = this.albums.map(object => object.title).indexOf(payload.albumToEdit)
+    }
 
-      this.$q.dialog({
+    const editAlbum = (payload) => {
+      let iAlbum = albumStore.getIndexFromTitle(payload.albumToEdit)
+
+      $q.dialog({
         component: AlbumSettings,
         componentProps: {
-          title: this.albums[iAlbum].title,
-          description: this.albums[iAlbum].description,
-          avatar: this.albums[iAlbum].avatar
+          title: albumStore.albums[iAlbum].title,
+          description: albumStore.albums[iAlbum].description,
+          avatar: albumStore.albums[iAlbum].avatar
         }
       }).onOk(data => {
-          this.albums[iAlbum].title = data.album.title
-          this.albums[iAlbum].description = data.album.description
-          this.albums[iAlbum].avatar = data.album.avatar
+          albumStore.updateAlbum(iAlbum, data.album)
         }
       )
-    },
+    }
+
+    return { 
+      newAlbum,
+      deleteAlbum, 
+      editAlbum,
+      albums: albumStore.albums,
+    }
   }
 })
 </script>

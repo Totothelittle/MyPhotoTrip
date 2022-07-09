@@ -33,16 +33,18 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  props: {
+  setup() {
+    const title = ref('')
+    const description = ref('')
+    const avatar = ref('')
 
-  },
-
-  data() {
     return {
-      title: '',
-      description: '',
-      avatar: ''
+      title,
+      description,
+      avatar
     }
   },
 

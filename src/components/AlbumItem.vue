@@ -42,37 +42,38 @@
 
 <script>
 
-    export default {
-        name: "AlbumItem",
+export default {
+name: "AlbumItem",
 
-        props: {
-            title:
-            {
-                type: String,
-                required: true
-            },
-            description:
-            {
-                type: String,
-                required: true
-            },
-            avatar:
-            {
-                type: String,
-                required: true
-            },
-            id: {
-              type: [String, Number],
-              required: true
-            }
+    props: {
+        title:
+        {
+            type: String,
+            required: true
         },
-        methods: {
-            emitDeleteAlbum() {
-                this.$emit('delete-album', { albumToDelete: this.title })
-            },
-            emitEditAlbum() {
-                this.$emit('edit-album', { albumToEdit: this.title })
-            }
+        description:
+        {
+           type: String,
+           required: true
+        },
+        avatar:
+        {
+            type: String,
+            required: true
+        },
+        id: 
+        {
+            type: [String, Number],
+            required: true
+        }
+    },
+    methods: {
+        emitDeleteAlbum() {
+            this.$emit('delete-album', { albumToDelete: this.title })
+        },
+        emitEditAlbum() {
+            this.$emit('edit-album', { albumToEdit: this.title })
         }
     }
+}
 </script>

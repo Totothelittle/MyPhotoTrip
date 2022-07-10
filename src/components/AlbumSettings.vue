@@ -19,7 +19,7 @@
                                     label="Name"
                                     v-model="editedTitle"
                                     lazy-rules
-                                    :rules="[ val => val && val.length > 0 || 'Please type something']"
+                                    :rules="[ val => val && val.length > 0 || 'Please type something', val => val && /[a-zA-Z]/.test(val[0]) || 'Title must begin with a letter']"
                                 />        
                             </q-card-section>
 

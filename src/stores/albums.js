@@ -25,7 +25,11 @@ export const useAlbumStore = defineStore('albumStore', {
   },
   actions: {
     addAlbum(album) {
+      album.id = this.nextId
+      this.nextId++
       this.albums.push(album)
+      console.log(album)
+      console.log(this.nextId)
     },
     deleteAlbum(title) {
       this.albums.splice(this.getIndexFromTitle(title), 1)
